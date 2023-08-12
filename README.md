@@ -2,10 +2,9 @@
 
 This is a project that I am making just to learn Game Development.
 
-If you want to test the current game, just run make command.
+If you want to test the current game, just run `make` command.
 
 I am trying to not use any specific system library, so it would be compatible to any OS.
-
 
 ## About resources
 
