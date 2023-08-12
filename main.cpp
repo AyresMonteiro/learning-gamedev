@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "./src/headers/GameScreen.header.hpp"
+#include "./src/headers/RPGGame.header.hpp"
 
 int main () {
     int width = 800;

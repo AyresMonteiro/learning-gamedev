@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include "../headers/GameScreen.header.hpp"
+#include "../headers/RPGGame.header.hpp"
 
 using namespace RPGGame;
 
@@ -89,6 +89,13 @@ void GameScreen::renderStart(sf::RenderWindow& window) {
 
         sf::sleep(sf::milliseconds(8));
     }
+
+    sf::VertexArray menuBox(sf::TriangleStrip, 4);
+
+    menuBox[0].position = sf::Vector2f(0.f, 0.f);
+    menuBox[1].position = sf::Vector2f(width - 1, 0.f);
+    menuBox[2].position = sf::Vector2f(0.f, height - 1);
+    menuBox[3].position = sf::Vector2f(width - 1, height - 1);
 }
 
 void GameScreen::render(sf::RenderWindow& baseWindow) {
