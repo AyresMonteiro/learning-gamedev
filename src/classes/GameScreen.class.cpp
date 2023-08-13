@@ -158,7 +158,7 @@ void GameScreen::renderStart(sf::RenderWindow& window) {
 
     int option = 0;
 
-    instructionsText0 = this->getSecondaryColorText(L"Pressione Enter");
+    instructionsText0 = this->getSecondaryColorText(L"Iniciar");
     instructionsText0.setCharacterSize(30);
     instructionsText0.setOutlineColor(this->mainColor);
     instructionsText0.setPosition(295, 360);
