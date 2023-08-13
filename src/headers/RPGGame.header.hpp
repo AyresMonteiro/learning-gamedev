@@ -21,6 +21,7 @@ namespace RPGGame {
             sf::Text getMainColorText(sf::String);
             sf::Text getSecondaryColorText(sf::String);
             void renderStart(sf::RenderWindow&);
+            void renderGame(sf::RenderWindow&);
             void render(sf::RenderWindow&);
             GameScreen();
     };

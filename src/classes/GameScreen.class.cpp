@@ -154,35 +154,65 @@ void GameScreen::renderStart(sf::RenderWindow& window) {
     screenItems.pop_back();
     screenItems.push_back({ .fade = false, .isVertex = false, .isSprite = true, {.sprite = menuBox}, .points = 0});
 
-    sf::Text instructionsText;
+    sf::Text instructionsText0, instructionsText1;
 
-    instructionsText = this->getSecondaryColorText(L"Pressione Enter");
-    instructionsText.setCharacterSize(30);
-    instructionsText.setOutlineColor(this->mainColor);
-    instructionsText.setPosition(295, 380);
+    int option = 0;
 
-    screenItems.push_back({ .fade = true, .isVertex = false, .isSprite = false, {.text = instructionsText}, .points = 0});
+    instructionsText0 = this->getSecondaryColorText(L"Pressione Enter");
+    instructionsText0.setCharacterSize(30);
+    instructionsText0.setOutlineColor(this->mainColor);
+    instructionsText0.setPosition(295, 360);
+    
+    instructionsText1 = this->getSecondaryColorText(L"Sair");
+    instructionsText1.setCharacterSize(30);
+    instructionsText1.setOutlineColor(this->mainColor);
+    instructionsText1.setPosition(295, 400);
+
+    screenItems.push_back({ .fade = true, .isVertex = false, .isSprite = false, {.text = instructionsText0}, .points = 0});
+    screenItems.push_back({ .fade = false, .isVertex = false, .isSprite = false, {.text = instructionsText1}, .points = 0});
 
     bool canExit = false;
 
     while(!canExit) {
+        bool pressed = false;
         sf::Event event;
 
         while (window.pollEvent(event)) {
             if(event.type == sf::Event::KeyPressed) {
                 if(event.key.code == sf::Keyboard::Key::Enter) {
                     canExit = true;
-                    entranceSound.stop();
-                    window.close();
-                    break;
+
+                    if(option == 1) break;
+                }
+            }
+            
+            if(event.type == sf::Event::KeyPressed) {
+                if(event.key.code == sf::Keyboard::Key::Up || event.key.code == sf::Keyboard::Key::Down) {
+                    option = int(!option);
+                    pressed = true;
                 }
             }
         }
 
-        if(canExit) break;
+        if(canExit && option == 1) break;
 
-        drawingFx.fade(window, screenItems, 2);
+        screenItems.pop_back();
+        screenItems.pop_back();
+
+        screenItems.push_back({ .fade = option == 0, .isVertex = false, .isSprite = false, {.text = instructionsText0}, .points = 0});
+        screenItems.push_back({ .fade = option == 1, .isVertex = false, .isSprite = false, {.text = instructionsText1}, .points = 0});
+
+        if(!pressed) drawingFx.fade(window, screenItems, 1);
     }
+
+    window.clear();
+    entranceSound.stop();
+
+    if (option == 1) window.close();
+}
+
+void GameScreen::renderGame(sf::RenderWindow& window) {
+
 }
 
 void GameScreen::render(sf::RenderWindow& baseWindow) {
@@ -192,7 +222,7 @@ void GameScreen::render(sf::RenderWindow& baseWindow) {
         this->renderStart(baseWindow);
     }
 
-    baseWindow.clear();
+    this->renderGame(baseWindow);
 }
 
 GameScreen::GameScreen() {
