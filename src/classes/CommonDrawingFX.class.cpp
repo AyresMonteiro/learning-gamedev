@@ -29,6 +29,6 @@ void CommonDrawingFX::fade(sf::RenderWindow& window, std::vector<RPGGame::Common
 
         window.display();
 
-        sf::sleep(sf::milliseconds(15));
+        sf::sleep(sf::milliseconds(2));
     }
 }

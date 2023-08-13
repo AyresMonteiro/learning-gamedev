@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include <SFML/Graphics.hpp>
 
 #include "../headers/RPGGame.header.hpp"
@@ -6,6 +7,8 @@
 using namespace RPGGame;
 
 void GameScreen::renderStart(sf::RenderWindow& window) {
+    RPGGame::CommonDrawingFX drawingFx;
+
     sf::Text gameTitle, gameTitle2;
     sf::VertexArray initialFrame(sf::TriangleStrip, 4);
 
@@ -13,9 +16,9 @@ void GameScreen::renderStart(sf::RenderWindow& window) {
     float height = float(window.getSize().y);
 
     initialFrame[0].position = sf::Vector2f(0.f, 0.f);
-    initialFrame[1].position = sf::Vector2f(width - 1, 0.f);
-    initialFrame[2].position = sf::Vector2f(0.f, height - 1);
-    initialFrame[3].position = sf::Vector2f(width - 1, height - 1);
+    initialFrame[1].position = sf::Vector2f(width, 0.f);
+    initialFrame[2].position = sf::Vector2f(0.f, height);
+    initialFrame[3].position = sf::Vector2f(width, height);
 
     initialFrame[0].color = sf::Color::Black;
     initialFrame[1].color = sf::Color::Black;
@@ -27,14 +30,14 @@ void GameScreen::renderStart(sf::RenderWindow& window) {
     gameTitle.setFont(this->mainFont);
     gameTitle.setCharacterSize(50);
     gameTitle.setFillColor(sf::Color::Black);
-    gameTitle.setPosition(int(width) / 2 - 220, int(height) / 2 - 60);
+    gameTitle.setPosition(int(width) / 2 - 214, int(height) / 2 - 60);
 
     gameTitle2.setString(L"A Origem");
     gameTitle2.setStyle(sf::Text::Bold); 
     gameTitle2.setFont(this->mainFont);
     gameTitle2.setCharacterSize(40);
     gameTitle2.setFillColor(sf::Color::White);
-    gameTitle2.setPosition(int(width) / 2 - 100, int(height) / 2 + 20);
+    gameTitle2.setPosition(int(width) / 2 - 86, int(height) / 2 + 20);
 
     for (int i = 0; i < 256; i++) {
         sf::Uint8 param = sf::Uint8(i % 256);
@@ -54,7 +57,7 @@ void GameScreen::renderStart(sf::RenderWindow& window) {
         window.draw(gameTitle);
         window.display();
 
-        sf::sleep(sf::milliseconds(15));
+        sf::sleep(sf::milliseconds(10));
     }
 
     for (int i = 0; i < 256; i++) {
@@ -72,8 +75,8 @@ void GameScreen::renderStart(sf::RenderWindow& window) {
         sf::sleep(sf::milliseconds(10));
     }
 
-    float gameTitleWidth = int(width) / 2 - 220;
-    float gameTitle2Width = int(width) / 2 - 100;
+    float gameTitleWidth = int(width) / 2 - 214;
+    float gameTitle2Width = int(width) / 2 - 86;
 
     for (int i = 0; i < 220; i++) {
         sf::Uint8 param = sf::Uint8(i % 256);
@@ -87,15 +90,29 @@ void GameScreen::renderStart(sf::RenderWindow& window) {
         window.draw(gameTitle2);
         window.display();
 
-        sf::sleep(sf::milliseconds(8));
+        sf::sleep(sf::milliseconds(5));
     }
 
     sf::VertexArray menuBox(sf::TriangleStrip, 4);
 
-    menuBox[0].position = sf::Vector2f(0.f, 0.f);
-    menuBox[1].position = sf::Vector2f(width - 1, 0.f);
-    menuBox[2].position = sf::Vector2f(0.f, height - 1);
-    menuBox[3].position = sf::Vector2f(width - 1, height - 1);
+    menuBox[0].position = sf::Vector2f(200.f, 260.f);
+    menuBox[1].position = sf::Vector2f(600.f, 260.f);
+    menuBox[2].position = sf::Vector2f(200.f, 560.f);
+    menuBox[3].position = sf::Vector2f(600.f, 560.f);
+
+    menuBox[0].color = sf::Color(sf::Color::Black);
+    menuBox[1].color = sf::Color(sf::Color::Black);
+    menuBox[2].color = sf::Color(sf::Color::Black);
+    menuBox[3].color = sf::Color(sf::Color::Black);
+
+    std::vector<RPGGame::CommonShapeData> screenItems = std::vector<RPGGame::CommonShapeData>();
+
+    screenItems.push_back({ .fade = false, .isVertex = true, {.vertex = initialFrame}, .points = 4});
+    screenItems.push_back({ .fade = false, .isVertex = false, {.text = gameTitle}, .points = 0});
+    screenItems.push_back({ .fade = false, .isVertex = false, {.text = gameTitle2}, .points = 0});
+    screenItems.push_back({ .fade = true, .isVertex = true, {.vertex = menuBox}, .points = 4});
+
+    drawingFx.fade(window, screenItems);
 }
 
 void GameScreen::render(sf::RenderWindow& baseWindow) {
