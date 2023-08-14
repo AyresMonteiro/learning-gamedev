@@ -15,15 +15,41 @@ namespace RPGGame {
     class GameScreen {
         public:
             bool started;
+            bool finished;
             sf::Font mainFont;
             sf::Color mainColor;
             sf::Color secondaryColor;
             sf::Text getMainColorText(sf::String);
             sf::Text getSecondaryColorText(sf::String);
             void renderStart(sf::RenderWindow&);
-            void renderGame(sf::RenderWindow&);
+            bool renderGame(sf::RenderWindow&);
             void render(sf::RenderWindow&);
             GameScreen();
+    };
+    class Character {
+        public:
+            enum Direction {
+                down,
+                right,
+                left,
+                up,
+            };
+            enum AnimationStage {
+                first,
+                second,
+                third
+            };
+            sf::Texture texture;
+            sf::Sprite sprite;
+            sf::Vector2f position;
+            Character::Direction direction;
+            Character::AnimationStage stage;
+            void draw(sf::RenderWindow&);
+            void setDirection(Character::Direction);
+            void setStage(Character::AnimationStage);
+            void setPositionX(int, sf::RenderWindow&);
+            void setPositionY(int, sf::RenderWindow&);
+            Character(std::string);
     };
 }
 
