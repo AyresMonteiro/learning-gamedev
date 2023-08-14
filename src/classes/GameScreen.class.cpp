@@ -208,21 +208,140 @@ void GameScreen::renderStart(sf::RenderWindow& window) {
     window.clear();
     entranceSound.stop();
 
-    if (option == 1) window.close();
+    if (option == 1) {
+        window.close();
+        this->finished = true;
+    }
 }
 
-void GameScreen::renderGame(sf::RenderWindow& window) {
+bool GameScreen::renderGame(sf::RenderWindow& window) {
+    if(this->finished) return false;
 
+    sf::VertexArray initialFrame(sf::TriangleStrip, 4);
+
+    float width = float(window.getSize().x);
+    float height = float(window.getSize().y);
+
+    initialFrame[0].position = sf::Vector2f(0.f, 0.f);
+    initialFrame[1].position = sf::Vector2f(width, 0.f);
+    initialFrame[2].position = sf::Vector2f(0.f, height);
+    initialFrame[3].position = sf::Vector2f(width, height);
+
+    initialFrame[0].color = sf::Color(sf::Color::White);
+    initialFrame[1].color = initialFrame[0].color;
+    initialFrame[2].color = initialFrame[0].color;
+    initialFrame[3].color = initialFrame[0].color;
+
+    Character henri("./src/resources/png/henri.png");
+
+    bool canExit = false;
+    bool canWalk = false;
+
+    window.setKeyRepeatEnabled(false);
+
+    while(!canExit) {
+        sf::Event event;
+
+        if (window.pollEvent(event)) {
+            if(event.type == sf::Event::KeyPressed) {
+                if(event.key.code == sf::Keyboard::Key::Escape) {
+                    canExit = true;
+                    break;
+                }
+                
+                bool upPressed = event.key.code == sf::Keyboard::Key::Up;
+                bool downPressed = event.key.code == sf::Keyboard::Key::Down;
+                bool rightPressed = event.key.code == sf::Keyboard::Key::Right;
+                bool leftPressed = event.key.code == sf::Keyboard::Key::Left;
+
+                canWalk = upPressed || downPressed || rightPressed || leftPressed;
+
+                if (upPressed) {
+                    henri.setDirection(Character::Direction::up);
+                } else if (downPressed) {
+                    henri.setDirection(Character::Direction::down);
+                } else if (rightPressed) {
+                    henri.setDirection(Character::Direction::right);
+                } else if (leftPressed) {
+                    henri.setDirection(Character::Direction::left);
+                }
+            }
+            
+            if(event.type == sf::Event::KeyReleased) {    
+                bool upReleased = event.key.code == sf::Keyboard::Key::Up;
+                bool downReleased = event.key.code == sf::Keyboard::Key::Down;
+                bool rightReleased = event.key.code == sf::Keyboard::Key::Right;
+                bool leftReleased = event.key.code == sf::Keyboard::Key::Left;
+
+                canWalk = canWalk && !(
+                    (upReleased && henri.direction == Character::Direction::up) ||
+                    (downReleased && henri.direction == Character::Direction::down) ||
+                    (rightReleased && henri.direction == Character::Direction::right) ||
+                    (leftReleased && henri.direction == Character::Direction::left)
+                );
+            }
+        }
+
+        if(!canWalk) {
+            window.clear();
+            window.draw(initialFrame);
+            henri.draw(window);
+            window.display();
+        } else {
+            for(int j = 0; j < 4; j++) {
+                window.clear();
+                window.draw(initialFrame);
+                henri.setStage(Character::AnimationStage(j % 3));
+                henri.draw(window);
+                window.display();
+
+                sf::sleep(sf::milliseconds(50));
+
+                if (henri.direction == Character::Direction::up) {
+                    henri.setPositionY(int(henri.position.y) - 16, window);
+                } else if (henri.direction == Character::Direction::down) {
+                    henri.setPositionY(int(henri.position.y) + 16, window);
+                } else if (henri.direction == Character::Direction::right) {
+                    henri.setPositionX(int(henri.position.x) + 16, window);
+                } else if (henri.direction == Character::Direction::left) {
+                    henri.setPositionX(int(henri.position.x) - 16, window);
+                }
+            }
+        }
+    }
+
+    this->finished = true;
+
+    return false;
 }
 
 void GameScreen::render(sf::RenderWindow& baseWindow) {
+    if(this->finished) {
+        baseWindow.close();
+        return;
+    }
+    
+    sf::Event event;
+
+    while (baseWindow.pollEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            baseWindow.close();
+            return;
+        }
+    }
+
     if (this->started == false) {
         this->started = true;
 
         this->renderStart(baseWindow);
     }
 
-    this->renderGame(baseWindow);
+    if(this->finished) {
+        if (baseWindow.isOpen()) baseWindow.close();
+        return;
+    }
+
+    while(this->renderGame(baseWindow));
 }
 
 GameScreen::GameScreen() {
@@ -233,6 +352,7 @@ GameScreen::GameScreen() {
     std::cout << "Main Font loaded" << std::endl;
     std::cout << "GameScreen constructed" << std::endl;
     this->started = false;
+    this->finished = false;
     this->mainColor = sf::Color(39, 27, 0, 255);
     this->secondaryColor = sf::Color(255, 223, 120, 255);
 }
