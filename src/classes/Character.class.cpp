@@ -22,6 +22,7 @@ Character::Character(std::string texturePath) {
     std::cout << "Texture loaded" << std::endl;
 
     this->sprite = sf::Sprite();
+    this->sprite.scale(2.f, 2.f);
     this->sprite.setTexture(this->texture);
     this->sprite.setTextureRect(sf::IntRect(
         0 + (64 * int(this->direction)),
@@ -54,12 +55,8 @@ void Character::setStage(Character::AnimationStage stage) {
 void Character::setPositionX(int x, sf::RenderWindow& window) {
     int width = window.getSize().x;
 
-    std::cout << 
-        float((x < 0 ? width - x : x) % width)
-    << std::endl;
-
     this->position = sf::Vector2f(
-        float((x < 0 ? width - x : x) % width),
+        float((x < 0 ? width + x : x) % width),
         this->position.y
     );
 
@@ -69,13 +66,9 @@ void Character::setPositionX(int x, sf::RenderWindow& window) {
 void Character::setPositionY(int y, sf::RenderWindow& window) {
     int height = window.getSize().y;
 
-    std::cout << 
-        float((y < 0 ? height - y : y) % height)
-    << std::endl;
-
     this->position = sf::Vector2f(
         this->position.x,
-        float((y < 0 ? height - y : y) % height)
+        float((y < 0 ? height + y : y) % height)
     );
 
     this->sprite.setPosition(this->position);

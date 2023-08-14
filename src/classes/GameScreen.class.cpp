@@ -5,6 +5,8 @@
 
 #include "../headers/RPGGame.header.hpp"
 
+#define STEP_SIZE 16
+
 using namespace RPGGame;
 
 sf::Text GameScreen::getMainColorText(sf::String text) {
@@ -298,13 +300,13 @@ bool GameScreen::renderGame(sf::RenderWindow& window) {
                 sf::sleep(sf::milliseconds(50));
 
                 if (henri.direction == Character::Direction::up) {
-                    henri.setPositionY(int(henri.position.y) - 16, window);
+                    henri.setPositionY(int(henri.position.y) - STEP_SIZE, window);
                 } else if (henri.direction == Character::Direction::down) {
-                    henri.setPositionY(int(henri.position.y) + 16, window);
+                    henri.setPositionY(int(henri.position.y) + STEP_SIZE, window);
                 } else if (henri.direction == Character::Direction::right) {
-                    henri.setPositionX(int(henri.position.x) + 16, window);
+                    henri.setPositionX(int(henri.position.x) + STEP_SIZE, window);
                 } else if (henri.direction == Character::Direction::left) {
-                    henri.setPositionX(int(henri.position.x) - 16, window);
+                    henri.setPositionX(int(henri.position.x) - STEP_SIZE, window);
                 }
             }
         }
