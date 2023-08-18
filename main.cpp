@@ -28,9 +28,9 @@ int main () {
     RPGGame::MapData base(
         (uint8_t) 16,
         (uint8_t) 16,
-        (uint8_t) 16,
-        (uint8_t) 16,
-        std::string("./src/resources/maps/first_map.gamemap"),
+        (uint8_t) 64,
+        (uint8_t) 64,
+        std::string("./src/resources/textures/wooden_house.png"),
         std::vector<std::vector<uint8_t>>(16, std::vector<uint8_t>(16, 0)),
         std::vector<std::vector<uint16_t>>(16, std::vector<uint16_t>(16, 0))
     );
@@ -42,7 +42,7 @@ int main () {
     base.graphicalMap[base.mapWidth - 1][base.mapHeight - 1] = 1;
     base.debug();
 
-    map.writeMap(base);
+    map.writeMap("./src/resources/maps/first_map.gamemap", base);
     map.readFromFile("./src/resources/maps/first_map.gamemap").debug();
 
     return 0;

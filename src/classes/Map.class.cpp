@@ -21,10 +21,10 @@ typedef union {
 } FlexibleUInt16;
 
 void MapData::debug() {
-    std::cout << "Width: " << this->mapWidth << std::endl;
-    std::cout << "Height: " << this->mapHeight << std::endl;
-    std::cout << "TextureBlockWidth: " << this->mapTextureBlockWidth << std::endl;
-    std::cout << "TextureBlockHeight: " << this->mapTextureBlockHeight << std::endl;
+    std::cout << "Width: " << (int) this->mapWidth << std::endl;
+    std::cout << "Height: " << (int) this->mapHeight << std::endl;
+    std::cout << "TextureBlockWidth: " << (int) this->mapTextureBlockWidth << std::endl;
+    std::cout << "TextureBlockHeight: " << (int) this->mapTextureBlockHeight << std::endl;
     std::cout << "TexturePath: " << this->texturePath << std::endl;
 
     std::cout << "Permeability Map:" << std::endl;
@@ -67,8 +67,8 @@ MapData::MapData(
     this->graphicalMap = graphicalMap;
 };
 
-void Map::writeMap(RPGGame::MapData data) {
-    std::ofstream mapFile(data.texturePath, std::ios::out | std::ios::binary);
+void Map::writeMap(std::string mapPath, RPGGame::MapData data) {
+    std::ofstream mapFile(mapPath, std::ios::out | std::ios::binary);
 
     if(!mapFile.is_open()) {
         std::cout << "Map file was not opened" << std::endl;
@@ -180,4 +180,6 @@ MapData Map::readFromFile(std::string path) {
     std::cout << "Map file was read" << std::endl;
 
     mapFile.close();
+
+    return data;
 }

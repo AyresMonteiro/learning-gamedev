@@ -65,7 +65,7 @@ namespace RPGGame {
     };
     class Map {
         public:
-            void writeMap(RPGGame::MapData data);
+            void writeMap(std::string, RPGGame::MapData data);
             RPGGame::MapData readFromFile(std::string);
         // RPGGame::MapData readMap(std::string);
     };
