@@ -51,6 +51,33 @@ namespace RPGGame {
             void setPositionY(int, sf::RenderWindow&);
             Character(std::string);
     };
+    class MapData {
+        public:
+            uint8_t mapWidth, mapHeight;
+            uint8_t mapTextureWidth, mapTextureHeight;
+            uint8_t mapTextureBlockWidth, mapTextureBlockHeight;
+            std::string texturePath;
+            std::vector<std::vector<uint8_t>> permeabilityMap;
+            std::vector<std::vector<uint16_t>> graphicalMap;
+            void debug();
+
+            MapData();
+            MapData(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, std::string, std::vector<std::vector<uint8_t>>, std::vector<std::vector<uint16_t>>);
+    };
+    class Map {
+        public:
+            RPGGame::MapData mapData;
+            sf::Texture mapTexture;
+            std::vector<std::vector<sf::Sprite>> tiles;
+
+            void draw(sf::RenderWindow&);
+
+            void writeMap(std::string, RPGGame::MapData data);
+            RPGGame::MapData readFromFile(std::string);
+
+            Map();
+            Map(std::string);
+    };
 }
 
 #endif

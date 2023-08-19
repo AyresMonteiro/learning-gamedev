@@ -224,6 +224,8 @@ bool GameScreen::renderGame(sf::RenderWindow& window) {
     float width = float(window.getSize().x);
     float height = float(window.getSize().y);
 
+    RPGGame::Map baseMap("./src/resources/maps/first_map.gamemap");
+
     initialFrame[0].position = sf::Vector2f(0.f, 0.f);
     initialFrame[1].position = sf::Vector2f(width, 0.f);
     initialFrame[2].position = sf::Vector2f(0.f, height);
@@ -287,12 +289,14 @@ bool GameScreen::renderGame(sf::RenderWindow& window) {
         if(!canWalk) {
             window.clear();
             window.draw(initialFrame);
+            baseMap.draw(window);
             henri.draw(window);
             window.display();
         } else {
             for(int j = 0; j < 4; j++) {
                 window.clear();
                 window.draw(initialFrame);
+                baseMap.draw(window);
                 henri.setStage(Character::AnimationStage(j % 3));
                 henri.draw(window);
                 window.display();
