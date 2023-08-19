@@ -17,4 +17,4 @@ I am trying to not use any specific system library, so it would be compatible to
 
 ### Images
 
-All resource images are created by me using [GIMP](https://www.gimp.org/).
+All resource images are created by me using [GIMP](https://www.gimp.org/) and [LibreSprite](https://libresprite.github.io).

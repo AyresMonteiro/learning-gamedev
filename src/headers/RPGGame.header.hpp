@@ -54,6 +54,7 @@ namespace RPGGame {
     class MapData {
         public:
             uint8_t mapWidth, mapHeight;
+            uint8_t mapTextureWidth, mapTextureHeight;
             uint8_t mapTextureBlockWidth, mapTextureBlockHeight;
             std::string texturePath;
             std::vector<std::vector<uint8_t>> permeabilityMap;
@@ -61,13 +62,21 @@ namespace RPGGame {
             void debug();
 
             MapData();
-            MapData(uint8_t, uint8_t, uint8_t, uint8_t, std::string, std::vector<std::vector<uint8_t>>, std::vector<std::vector<uint16_t>>);
+            MapData(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, std::string, std::vector<std::vector<uint8_t>>, std::vector<std::vector<uint16_t>>);
     };
     class Map {
         public:
+            RPGGame::MapData mapData;
+            sf::Texture mapTexture;
+            std::vector<std::vector<sf::Sprite>> tiles;
+
+            void draw(sf::RenderWindow&);
+
             void writeMap(std::string, RPGGame::MapData data);
             RPGGame::MapData readFromFile(std::string);
-        // RPGGame::MapData readMap(std::string);
+
+            Map();
+            Map(std::string);
     };
 }
 
