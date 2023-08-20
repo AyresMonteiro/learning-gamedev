@@ -1,7 +1,7 @@
 CXXFLAGS := $(shell pkg-config --cflags sfml-all)
 LDLIBS := $(shell pkg-config --libs sfml-all)
 
-main: main.cpp ./build/classes/GameScreen.class.o ./build/classes/CommonDrawingFX.class.o ./build/classes/Character.class.o
+main: main.cpp ./build/classes/GameScreen.class.o ./build/classes/CommonDrawingFX.class.o ./build/classes/Character.class.o ./build/classes/Map.class.o
 	g++ $(CXXFLAGS) ./main.cpp ./build/classes/Character.class.o ./build/classes/CommonDrawingFX.class.o ./build/classes/GameScreen.class.o ./build/classes/Map.class.o -o main $(LDLIBS)
 
 ./build/classes/Character.class.o: ./src/classes/Character.class.cpp

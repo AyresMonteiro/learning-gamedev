@@ -49,6 +49,8 @@ namespace RPGGame {
             void setStage(Character::AnimationStage);
             void setPositionX(int, sf::RenderWindow&);
             void setPositionY(int, sf::RenderWindow&);
+            int getPositionX();
+            int getPositionY();
             Character(std::string);
     };
     class MapData {
