@@ -234,29 +234,15 @@ Map::Map(std::string mapPath) {
     this->mapData.debug();
 
     for(int i = 0; i < this->mapData.mapHeight; i++) {
-        // this->tiles.push_back(std::vector<sf::Sprite>());
         for(int j = 0; j < this->mapData.mapWidth; j++) {
-            // this->tiles[i].push_back(sf::Sprite());
             uint16_t index = this->mapData.graphicalMap[i][j];
-
-            std::cout << "index: " << index << std::endl;
 
             int x = extractX(index, this->mapData.mapTextureWidth);
             int y = extractY(index, this->mapData.mapTextureHeight);
 
-            std::cout << "index: " << index << " x: " << x << " y: " << y << std::endl;
-
             this->tiles[i][j].setTexture(this->mapTexture);
             this->tiles[i][j].scale(2.f, 2.f);
 
-            std::cout <<
-                "offset x: " << int(this->mapData.mapTextureBlockWidth * x) <<
-                " offset y: " << int(this->mapData.mapTextureBlockHeight * y) <<
-                " x block size: " << int(this->mapData.mapTextureBlockWidth) <<
-                " y block size: " << int(this->mapData.mapTextureBlockHeight) <<
-                " x: " << x <<
-                " y: " << y <<
-            std::endl;
             this->tiles[i][j].setTextureRect(sf::IntRect(
                 (this->mapData.mapTextureBlockWidth * x),
                 (this->mapData.mapTextureBlockHeight * y),
@@ -264,9 +250,13 @@ Map::Map(std::string mapPath) {
                 this->mapData.mapTextureBlockHeight
             ));
 
+            // this->tiles[i][j].setColor(
+            //     this->mapData.permeabilityMap[i][j] ? sf::Color::White : sf::Color(200, 0, 0, 255)
+            // );
+
             this->tiles[i][j].setPosition(sf::Vector2f(
-                16.f + float(this->mapData.mapTextureBlockWidth * 2 * j),
-                16.f + float(this->mapData.mapTextureBlockHeight * 2 * i)
+                float(this->mapData.mapTextureBlockWidth * 2 * j),
+                float(this->mapData.mapTextureBlockHeight * 2 * i)
             ));
         }
     }

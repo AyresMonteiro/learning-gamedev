@@ -46,6 +46,30 @@ void handleMap() {
         base.permeabilityMap[i][base.mapWidth - 1] = 0;
     }
 
+    base.graphicalMap[0][6] = 0;
+    base.graphicalMap[1][6] = 12;
+    base.graphicalMap[2][6] = 24;
+
+    base.graphicalMap[0][8] = 2;
+    base.graphicalMap[1][8] = 14;
+    base.graphicalMap[2][8] = 26;
+    base.graphicalMap[2][7] = 25;
+
+    for (int i = 3; i < 6; i++) {
+        for (int j = 6; j < 9; j++) {
+            base.permeabilityMap[i][j] = 0;
+        }
+    }
+    base.graphicalMap[3][6] = 36;
+    base.graphicalMap[4][6] = 36;
+    base.graphicalMap[5][6] = 48;
+    base.graphicalMap[3][7] = 37;
+    base.graphicalMap[4][7] = 37;
+    base.graphicalMap[5][7] = 49;
+    base.graphicalMap[3][8] = 38;
+    base.graphicalMap[4][8] = 38;
+    base.graphicalMap[5][8] = 50;
+
     base.debug();
 
     map.writeMap("./src/resources/maps/first_map.gamemap", base);
@@ -73,6 +97,7 @@ void handleGame() {
 }
 
 int main () {
+    // handleMap();
     handleGame();
 
     return 0;

@@ -73,3 +73,11 @@ void Character::setPositionY(int y, sf::RenderWindow& window) {
 
     this->sprite.setPosition(this->position);
 }
+
+int Character::getPositionX() {
+    return (int) this->position.x;
+}
+
+int Character::getPositionY() {
+    return (int) this->position.y;
+}

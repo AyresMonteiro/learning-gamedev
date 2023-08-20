@@ -238,6 +238,9 @@ bool GameScreen::renderGame(sf::RenderWindow& window) {
 
     Character henri("./src/resources/png/henri.png");
 
+    henri.setPositionX(64, window);
+    henri.setPositionY(64, window);
+
     bool canExit = false;
     bool canWalk = false;
 
@@ -293,6 +296,18 @@ bool GameScreen::renderGame(sf::RenderWindow& window) {
             henri.draw(window);
             window.display();
         } else {
+            int coordsX = (henri.getPositionX() / 64);
+            int coordsY = (henri.getPositionY() / 64);
+
+            bool canGoUp =
+                baseMap.mapData.permeabilityMap[(coordsY) % baseMap.mapData.mapHeight][coordsX] &&
+                baseMap.mapData.permeabilityMap[(coordsY) % baseMap.mapData.mapHeight][coordsX + 1];
+            bool canGoDown = 
+                baseMap.mapData.permeabilityMap[(coordsY + 2) % baseMap.mapData.mapHeight][coordsX] &&
+                baseMap.mapData.permeabilityMap[(coordsY + 2) % baseMap.mapData.mapHeight][coordsX + 1];
+            bool canGoRight = baseMap.mapData.permeabilityMap[(coordsY + 1) % baseMap.mapData.mapHeight][(coordsX + 2) % baseMap.mapData.mapWidth];
+            bool canGoLeft = baseMap.mapData.permeabilityMap[(coordsY + 1) % baseMap.mapData.mapHeight][(coordsX - 1) % baseMap.mapData.mapWidth];
+
             for(int j = 0; j < 4; j++) {
                 window.clear();
                 window.draw(initialFrame);
@@ -301,15 +316,15 @@ bool GameScreen::renderGame(sf::RenderWindow& window) {
                 henri.draw(window);
                 window.display();
 
-                sf::sleep(sf::milliseconds(50));
+                sf::sleep(sf::milliseconds(50));                
 
-                if (henri.direction == Character::Direction::up) {
+                if (henri.direction == Character::Direction::up && canGoUp) {
                     henri.setPositionY(int(henri.position.y) - STEP_SIZE, window);
-                } else if (henri.direction == Character::Direction::down) {
+                } else if (henri.direction == Character::Direction::down && canGoDown) {
                     henri.setPositionY(int(henri.position.y) + STEP_SIZE, window);
-                } else if (henri.direction == Character::Direction::right) {
+                } else if (henri.direction == Character::Direction::right && canGoRight) {
                     henri.setPositionX(int(henri.position.x) + STEP_SIZE, window);
-                } else if (henri.direction == Character::Direction::left) {
+                } else if (henri.direction == Character::Direction::left && canGoLeft) {
                     henri.setPositionX(int(henri.position.x) - STEP_SIZE, window);
                 }
             }
